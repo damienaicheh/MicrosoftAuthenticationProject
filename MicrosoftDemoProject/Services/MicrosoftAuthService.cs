@@ -15,23 +15,17 @@ namespace MicrosoftDemoProject
 
         private IPublicClientApplication publicClientApplication;
 
-        // private bool IsLoaded;
         public void Initialize()
         {
-            //if (!this.IsLoaded)
-            //{
-                this.publicClientApplication = PublicClientApplicationBuilder.Create(ClientID)
-                    .WithRedirectUri($"msal{ClientID}://auth")
-                    .Build();
-            //    this.IsLoaded = true;
-            //}
+            this.publicClientApplication = PublicClientApplicationBuilder.Create(ClientID)
+                .WithRedirectUri($"msal{ClientID}://auth")
+                .Build();
         }
 
         public static object ParentWindow { get; set; }
 
         public async Task<User> OnSignInAsync()
         {
-            AuthenticationResult authResult = null;
             User currentUser = null;
 
             var accounts = await this.publicClientApplication.GetAccountsAsync();
@@ -40,7 +34,7 @@ namespace MicrosoftDemoProject
                 try
                 {
                     var firstAccount = accounts.FirstOrDefault();
-                    authResult = await this.publicClientApplication.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
+                    var authResult = await this.publicClientApplication.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
                     currentUser = await this.RefreshUserDataAsync(authResult?.AccessToken).ConfigureAwait(false);
                 }
                 catch (MsalUiRequiredException ex)
@@ -48,7 +42,7 @@ namespace MicrosoftDemoProject
                     // the user was not already connected.
                     try
                     {
-                        authResult = await this.publicClientApplication.AcquireTokenInteractive(Scopes)
+                        var authResult = await this.publicClientApplication.AcquireTokenInteractive(Scopes)
                                                     .WithParentActivityOrWindow(ParentWindow)
                                                     .ExecuteAsync();
                         currentUser = await this.RefreshUserDataAsync(authResult?.AccessToken).ConfigureAwait(false);
