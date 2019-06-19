@@ -11,7 +11,7 @@
         <local:NullToBooleanConverter x:Key="NullToBooleanConverter" />
     </ContentPage.Resources>
     
-    <StackLayout>
+    <StackLayout VerticalOptions="Center">
       <Label Text="Microsoft Account Authentication with Xamarin" VerticalOptions="Start" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" />
       
       <StackLayout Padding="5,10" Spacing="10" IsVisible="{Binding User, Converter={StaticResource NullToBooleanConverter}}">

@@ -18,12 +18,19 @@ namespace MicrosoftDemoProject
         public void Initialize()
         {
             this.publicClientApplication = PublicClientApplicationBuilder.Create(ClientID)
+                .WithIosKeychainSecurityGroup("com.microsoft.adalcache")
                 .WithRedirectUri($"msal{ClientID}://auth")
                 .Build();
         }
 
+        /// <summary>
+        /// This object is used to know where to display the authentication activity (for Android) or page.
+        /// </summary>
         public static object ParentWindow { get; set; }
 
+        /// <summary>
+        /// Signin with your Microsoft account.
+        /// </summary>
         public async Task<User> OnSignInAsync()
         {
             User currentUser = null;
@@ -63,6 +70,9 @@ namespace MicrosoftDemoProject
             return currentUser;
         }
 
+        /// <summary>
+        /// Sign out with your Microsoft account.
+        /// </summary>
         public async Task OnSignOutAsync()
         {
             var accounts = await this.publicClientApplication.GetAccountsAsync();
