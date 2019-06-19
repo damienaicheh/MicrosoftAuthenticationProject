@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:MicrosoftDemoProject"
+             x:Class="MicrosoftDemoProject.MainPage">
+    
+    <ContentPage.Resources>
+        <local:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+    </ContentPage.Resources>
+    
+    <StackLayout>
+      <Label Text="Microsoft Account Authentication with Xamarin" VerticalOptions="Start" HorizontalTextAlignment="Center" HorizontalOptions="FillAndExpand" />
+      
+      <StackLayout Padding="5,10" Spacing="10" IsVisible="{Binding User, Converter={StaticResource NullToBooleanConverter}}">
+        <Label Text="{Binding User.DisplayName}" />
+        <Label Text="{Binding User.GivenName}" />
+        <Label Text="{Binding User.Surname}" />
+        <Label Text="{Binding User.Id}" />    
+        <Label Text="{Binding User.UserPrincipalName}" />
+      </StackLayout>
+        
+      <ActivityIndicator IsVisible="{Binding IsLoading}"
+                         IsRunning="{Binding IsLoading}"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>  
+        
+      <BoxView Color="Transparent" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+        
+      <Button Text="Sign in" Command="{Binding SignInCommand}" IsVisible="{Binding User, Converter={StaticResource NullToBooleanConverter}, ConverterParameter=invert}" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+      
+      <Button Text="Sign Out" Command="{Binding SignOutCommand}" IsVisible="{Binding User, Converter={StaticResource NullToBooleanConverter}}" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+    </StackLayout>
+</ContentPage>
